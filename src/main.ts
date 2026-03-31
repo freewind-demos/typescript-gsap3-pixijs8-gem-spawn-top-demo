@@ -54,23 +54,10 @@ async function initApp() {
     return gem
   }
 
-  // 动画：宝石从上方落入
-  function spawnGem(gem: Graphics): gsap.core.Tween {
-    gem.rotation = 0
-    gem.scale.set(0)
-
-    return gsap.to(gem, {
-      y: TARGET_Y,
-      duration: 0.8,
-      ease: 'bounce.out',
-    })
-  }
-
-  // 带旋转和缩放的入场动画
+  // 带旋转和缩放的入场动画（从顶部生成落下）
   function spawnGemWithEffect(gem: Graphics): gsap.core.Timeline {
     const tl = gsap.timeline()
 
-    // 先缩放和旋转到0
     gem.scale.set(0)
     gem.rotation = Math.PI * 4
 
@@ -80,16 +67,16 @@ async function initApp() {
       duration: 0.3,
       ease: 'back.out(1.7)',
     })
-    .to(gem, {
-      y: TARGET_Y,
-      duration: 0.6,
-      ease: 'bounce.out',
-    }, '<')
-    .to(gem.rotation, {
-      x: 0,
-      duration: 0.6,
-      ease: 'power2.out',
-    }, '<')
+    .to(
+      gem,
+      {
+        y: TARGET_Y,
+        rotation: 0,
+        duration: 0.6,
+        ease: 'bounce.out',
+      },
+      '<',
+    )
 
     return tl
   }
